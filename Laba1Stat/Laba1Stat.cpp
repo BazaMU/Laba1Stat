@@ -75,19 +75,23 @@ public:
     }
 
     Train& operator+=(Vagon new_vagon) {
-
-        n++;
-        train[n - 1].SetP(new_vagon.GetP());
-        train[n - 1].SetC(new_vagon.GetC());
-        return *this;
-
+        if (n > 10) { throw runtime_error("число вагонов превышено"); }
+        else {
+            n++;
+            train[n - 1].SetP(new_vagon.GetP());
+            train[n - 1].SetC(new_vagon.GetC());
+            return *this;
+        }
     }
 
     Train& operator+=(Train new_train) {
-        n++;
-        train[n - 1].SetP(new_train.GetP(0));
-        train[n - 1].SetC(new_train.GetC(0));
-        return *this;
+        if (n > 10) { throw runtime_error("число вагонов превышено"); }
+        else {
+            n++;
+            train[n - 1].SetP(new_train.GetP(0));
+            train[n - 1].SetC(new_train.GetC(0));
+            return *this;
+        }
     }
 
     int const Sum() {
