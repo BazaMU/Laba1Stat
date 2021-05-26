@@ -3,13 +3,14 @@
 using namespace std;
 
 //структура вагон с параметрами вместимость и пассажиры
+
 struct Vagon {
 
 private:
-    int c = 0, p = 0;
+    int c, p;
 
 public:
-    Vagon() {}
+    Vagon() :c(0), p(0) {}
     Vagon(int p0, int c0) {
         c = c0;
         p = p0;
@@ -26,16 +27,16 @@ public:
     int GetP() const { return p; }
 
     friend istream& operator>>(istream&, Vagon&);
-    //friend ostream& operator<<(ostream&, Train&);
+    friend ostream& operator<<(ostream&, const Vagon&);
 };
 
 class Train {
 
 private:
-    int n = 0;
+    int n;
     Vagon train[10];
 public:
-    Train() {}
+    Train() :n(1) {}
     /*~Train() {
        // delete[] train;
     }*/
@@ -48,7 +49,7 @@ public:
         return P;
     }
 
-    int get_length() { return n; }
+    //int get_length() { return n; }
 
     void train_length(int n0) {
         if (n0 > 10) { throw runtime_error("число вагонов превышено"); }
@@ -70,8 +71,19 @@ public:
         return *this;
     }
 
-    void operator[](int n) {
+    /*void operator[](int n) {
         cout << "количество занятых мест в вагоне " << n << ": " << train[n].GetP() << endl;
+    }*/
+
+    int operator[](int i) {
+        if (i >= n) { throw runtime_error("число вагонов превышено"); }
+        else {
+
+            // train[i].GetC();
+            int p = train[i].GetP();
+
+            return p;
+        }
     }
 
     Train& operator+=(Vagon new_vagon) {
@@ -160,7 +172,24 @@ istream& operator>>(istream& intot, Train& obj) {
     }
     return intot;
 }
-ostream& operator<<(ostream& out, const Train& obj) {
+
+ostream& operator<<(ostream& outv, const Vagon& obj) {
+
+    outv << obj.c << "//" << obj.p;
+    //outv << obj.GetC() << "//" << obj.GetP();
+    return outv;
+}
+
+ostream& operator<<(ostream& outt, const Train& obj) {
+
+    for (int i = 0; i < obj.n; ++i) {
+        outt << obj.train[i] << endl;
+
+    }
+    return outt;
+}
+
+/*ostream& operator<<(ostream& out, const Train& obj) {
     int sum_pass = 0;
     int c1, p1;
     for (int i = 0; i < obj.n; i++) {
@@ -171,38 +200,24 @@ ostream& operator<<(ostream& out, const Train& obj) {
     string s = "количество свободных мест в поезде: ";
     out << s << sum_pass << "\n";
     return out;
-}
+}*/
+
+
 int main()
 {
     setlocale(0, "rus");
+    int x;
     Train a;
-    Train c;
-    a.train_length(5);
-    c.train_length(1);
-    //a.add_vagon();
+    a.train_length(3);
+    
+
 
     cin >> a;
-    cin >> c;
- 
-    a += c;
-    //Vagon vagonn = Vagon(6, 10);
-    //a += vagonn;
+    cout << a << endl;
 
-    int list[2] = { 0, 1 };
-    Train b = a(2, list);
-    a[0];
-    a[1];
-    a[2];
-    a[3];
     
-    
-
-    b[0];
-    b[1];
-         
-
-    a.Sum();
-    cout << a;
-    cout << b;
+    x = a[1];
+    cout << x;
+   
     return 0;
 }
